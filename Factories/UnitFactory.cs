@@ -9,15 +9,19 @@ namespace BotFactory.Factories
 
     public class UnitFactory : IUnitFactory
     {
-        public Queue<IFactoryQueueElement> Queue { get; set; } = new Queue<IFactoryQueueElement>();
-        public List<ITestingUnit> Storage { get; set; } = new List<ITestingUnit>();
+        public Queue<IFactoryQueueElement> Queue { get; set; }
+        public List<ITestingUnit> Storage { get; set; }
         private readonly int _queueCapacity;
         private readonly int _storageCapacity;
         public int QueueCapacity { get { return _queueCapacity; } }
         public int StorageCapacity { get { return _storageCapacity; } }
 
-        public Action<object, EventArgs> FactoryStatus { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
+        public Action<object, EventArgs> FactoryStatus { get; set; }
+        public UnitFactory()
+        {
+            Queue = new Queue<IFactoryQueueElement>();
+            Storage = new List<ITestingUnit>();
+        }
         public int QueueFreeSlots
         {
             get
@@ -26,7 +30,13 @@ namespace BotFactory.Factories
             }
         }
 
-        public int StorageFreeSlots => StorageCapacity - Storage.Count;
+        public int StorageFreeSlots
+        {
+            get
+            {
+                return StorageCapacity - Storage.Count;
+            }
+        }
 
         public TimeSpan QueueTime
         {
@@ -85,9 +95,7 @@ namespace BotFactory.Factories
             ITestingUnit robot = (ITestingUnit)Activator.CreateInstance(newElement.Model);
             Console.WriteLine("c'est parti!");
             System.Threading.Thread.Sleep((int)robot.BuildTime);
-            Console.WriteLine($"{newElement.Name} est fini! C'est un {newElement.Model.Name}");
-            Console.WriteLine($"Parking: {newElement.ParkingPos.X}  {newElement.ParkingPos.Y}");
-            Console.WriteLine($"Working: {newElement.WorkingPos.X}  {newElement.WorkingPos.Y}");
+            Console.WriteLine("Le robot {0} a été terminé", newElement.Model);
             return robot;
         }
     }
