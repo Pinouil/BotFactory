@@ -26,7 +26,7 @@ namespace BotFactory.Tools
                 {
                     _ibot.UnitStatusChanged -= _ibot_UnitStatusChanged;
                 }
-                SetField(ref _ibot, value, nameof(IBot));
+                SetField(ref _ibot, value, "IBot");
                 _ibot.UnitStatusChanged += _ibot_UnitStatusChanged;
                 Reports.Clear();
                 ForceUpdate();
@@ -41,7 +41,7 @@ namespace BotFactory.Tools
             }
             set
             {
-                SetField(ref _reporting, value, nameof(Reports));
+                SetField(ref _reporting, value, "Reports");
                 ForceUpdate();
             }
         }
@@ -62,13 +62,13 @@ namespace BotFactory.Tools
         public Boolean Response
         {
             get { return _response; }
-            set { SetField(ref _response, value, nameof(Response)); }
+            set { SetField(ref _response, value, "Response"); }
         }
 
         public Boolean Working
         {
             get { return _working; }
-            set { SetField(ref _working, value, nameof(Working)); }
+            set { SetField(ref _working, value, "Working"); }
         }
 
         public String Model
