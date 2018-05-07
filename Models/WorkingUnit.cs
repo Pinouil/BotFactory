@@ -14,7 +14,7 @@ namespace BotFactory.Models
         public Coordinates ParkingPos { get; set; }
         public Coordinates WorkingPos { get; set; }
         public bool IsWorking { get; set; }
-        Action<object, EventArgs> ITestingUnit.UnitStatusChanged { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        Action<object, EventArgs> ITestingUnit.UnitStatusChanged { get ; set ; }
 
         public WorkingUnit(string name, double speed = 1)
             :base(name, speed)
