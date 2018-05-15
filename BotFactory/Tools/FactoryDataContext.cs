@@ -104,7 +104,7 @@ namespace BotFactory.Tools
             }
             set
             {
-                OnPropertyChanged("Queue");
+                OnPropertyChanged(nameof(Queue));
             }
         }
 
