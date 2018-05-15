@@ -116,7 +116,7 @@ namespace BotFactory.Tools
             }
             set
             {
-                OnPropertyChanged("Storage");
+                OnPropertyChanged(nameof(Storage));
             }
         }
 
