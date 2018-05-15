@@ -17,19 +17,19 @@ namespace BotFactory.Tools
         public ITestingUnit IBot
         {
             get { return _ibot; }
-            set { SetField(ref _ibot, value, "IBot"); }
+            set { SetField(ref _ibot, value, nameof(IBot)); }
         }
 
         public Boolean Response
         {
             get { return _response; }
-            set { SetField(ref _response, value, "Response"); }
+            set { SetField(ref _response, value, nameof(Response)); }
         }
 
         public Boolean Working
         {
             get { return _working; }
-            set { SetField(ref _working, value, "Working"); }
+            set { SetField(ref _working, value, nameof(Working)); }
         }
 
         #endregion
