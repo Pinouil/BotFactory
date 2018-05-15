@@ -9,19 +9,15 @@ namespace BotFactory.Factories
 
     public class UnitFactory : IUnitFactory
     {
-        public Queue<IFactoryQueueElement> Queue { get; set; }
-        public List<ITestingUnit> Storage { get; set; }
+        public Queue<IFactoryQueueElement> Queue { get; set; } = new Queue<IFactoryQueueElement>();
+        public List<ITestingUnit> Storage { get; set; } = new List<ITestingUnit>();
         private readonly int _queueCapacity;
         private readonly int _storageCapacity;
         public int QueueCapacity { get { return _queueCapacity; } }
         public int StorageCapacity { get { return _storageCapacity; } }
 
-        public Action<object, EventArgs> FactoryStatus { get; set; }
-        public UnitFactory()
-        {
-            Queue = new Queue<IFactoryQueueElement>();
-            Storage = new List<ITestingUnit>();
-        }
+        public Action<object, EventArgs> FactoryStatus { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public int QueueFreeSlots
         {
             get
