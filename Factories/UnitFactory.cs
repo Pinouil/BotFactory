@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BotFactory.Common.Interface;
 using BotFactory.Common.Tools;
+using BotFactory.Models;
 
 namespace BotFactory.Factories
 {
@@ -13,10 +14,12 @@ namespace BotFactory.Factories
         public List<ITestingUnit> Storage { get; set; } = new List<ITestingUnit>();
         private readonly int _queueCapacity;
         private readonly int _storageCapacity;
+
+        public event EventHandler<EventArgs> FactoryStatus;
+
         public int QueueCapacity { get { return _queueCapacity; } }
         public int StorageCapacity { get { return _storageCapacity; } }
 
-        public Action<object, EventArgs> FactoryStatus { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public int QueueFreeSlots
         {
@@ -71,28 +74,45 @@ namespace BotFactory.Factories
             newElement.WorkingPos = workingPos;
 
             Queue.Enqueue(newElement);
-
-            ITestingUnit robot = BuildRobot(newElement);
-
-            Storage.Add(robot);
-
-            /*var task = new Task(() => {
-                BuildRobot(newElement);
-                Queue.Dequeue();
-            });
-            
-            */
+             BuildRobot(newElement);
 
             return true;            
         }
 
-        private ITestingUnit BuildRobot(FactoryQueueElement newElement)
+        private void BuildRobot(FactoryQueueElement newElement)
         {
-            ITestingUnit robot = (ITestingUnit)Activator.CreateInstance(newElement.Model);
-            Console.WriteLine("c'est parti!");
-            System.Threading.Thread.Sleep((int)robot.BuildTime);
-            Console.WriteLine("Le robot {0} a été terminé", newElement.Model);
-            return robot;
+            FactoryStatusArg factoryStatusArg = new FactoryStatusArg();
+            factoryStatusArg.QueueBot = newElement;
+            if (FactoryStatus != null)
+            {
+                FactoryStatus(this, factoryStatusArg);
+            }            
+            BaseUnit robot = (BaseUnit)Activator.CreateInstance(newElement.Model);
+            robot.UnitStatusChanged += robotUnitStatusChanged;
+            robot.Status = RobotStatus.Built;
         }
+
+        private void robotUnitStatusChanged(object robot, EventArgs statusArgs)
+        {
+            StatusChangedEventArgs status = (StatusChangedEventArgs)statusArgs;
+            if (status.NewStatus == RobotStatus.Built.ToString())
+            {
+                ITestingUnit robotCast = (ITestingUnit)robot;
+                Storage.Add(robotCast);
+                Queue.Dequeue();
+                FactoryStatusArg factoryStatusArg = new FactoryStatusArg();
+                factoryStatusArg.Robot = robotCast;
+                if (FactoryStatus != null)
+                {
+                    FactoryStatus(this, factoryStatusArg);
+                }
+            }
+        }
+    }
+
+    public class FactoryStatusArg : EventArgs
+    {
+        public IFactoryQueueElement QueueBot { get; set; }
+        public ITestingUnit Robot { get; set; }
     }
 }

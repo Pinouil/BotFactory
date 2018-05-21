@@ -9,6 +9,7 @@ namespace BotFactory.Models
         protected double _speed;
         protected Coordinates _position = new Coordinates(0, 0);
         protected Vector _vector = new Vector();
+        private RobotStatus _status = RobotStatus.Building;
 
 
         public BaseUnit(string name, double speed = 1): base(5000)
@@ -17,7 +18,18 @@ namespace BotFactory.Models
             _speed = speed;
         }
         
-
+        public RobotStatus Status
+        {
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                _status = value;
+                OnStatusChanged(value.ToString());
+            }
+        }
 
         public double Move(Coordinates wishPos)
         {
@@ -48,5 +60,10 @@ namespace BotFactory.Models
             }
         }
 
+    }
+
+    public enum RobotStatus
+    { 
+        Building, Built
     }
 }

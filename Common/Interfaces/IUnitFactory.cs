@@ -12,7 +12,7 @@ namespace BotFactory.Factories
         List<ITestingUnit> Storage { get; set; }
         int QueueCapacity { get ;  }
         int StorageCapacity { get ; }
-        Action<object, EventArgs> FactoryStatus { get; set; }
+        event EventHandler<EventArgs> FactoryStatus;
         int QueueFreeSlots { get; }
         int StorageFreeSlots { get; }
         TimeSpan QueueTime { get; }

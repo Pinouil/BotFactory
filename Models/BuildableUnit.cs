@@ -19,6 +19,9 @@ namespace BotFactory.Models
         public BuildableUnit(double buildTime)
         {
             BuildTime = buildTime;
+            Console.WriteLine("c'est parti!");
+            System.Threading.Thread.Sleep((int)BuildTime);
+            Console.WriteLine("Le robot a été terminé");
         }
     }
 }

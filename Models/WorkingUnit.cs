@@ -9,12 +9,11 @@ using BotFactory.Models;
 
 namespace BotFactory.Models
 {
-    public abstract class WorkingUnit : BaseUnit , ITestingUnit
+    public abstract class WorkingUnit : BaseUnit, ITestingUnit
     {
         public Coordinates ParkingPos { get; set; }
         public Coordinates WorkingPos { get; set; }
         public bool IsWorking { get; set; }
-        Action<object, EventArgs> ITestingUnit.UnitStatusChanged { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public WorkingUnit(string name, double speed = 1)
             :base(name, speed)
