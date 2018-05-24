@@ -21,15 +21,14 @@ namespace BotFactory.Models
         {
             get
             {
-                _model = this.GetType().Name;
                 return _model;
             }
-            set { _model = value; }
         }
 
         public BuildableUnit(double buildTime)
         {
             BuildTime = buildTime;
+            _model = this.GetType().Name;
             Console.WriteLine("c'est parti!");
             System.Threading.Thread.Sleep((int)BuildTime);
             Console.WriteLine("Le robot a été terminé");
